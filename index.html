@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#121213">
+  <title>Bibdle — Daily Bible Word Guessing Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <header class="app-header">
+    <h1>Bibdle</h1>
+    <p class="subtitle">Guess the daily Bible word</p>
+  </header>
+
+  <main>
+    <div id="board" class="board" role="group" aria-label="Guess grid"></div>
+  </main>
+
+  <footer id="keyboard" class="keyboard" role="group" aria-label="Keyboard"></footer>
+
+  <script src="words.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
