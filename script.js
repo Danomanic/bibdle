@@ -10,6 +10,7 @@
 
   const boardEl = document.getElementById("board");
   const keyboardEl = document.getElementById("keyboard");
+  const referenceEl = document.getElementById("reference");
   const toastEl = document.getElementById("toast");
 
   const state = {
@@ -164,6 +165,24 @@
     }
   }
 
+  // Once the round is over, the on-screen keyboard is no longer needed —
+  // swap it for the verse reference in the same footer slot, so it never
+  // adds extra height to the page.
+  function showReference() {
+    const verse = getReference(state.answer);
+    if (!verse) return;
+    referenceEl.innerHTML = "";
+    const wordEl = document.createElement("div");
+    wordEl.className = "ref-word";
+    wordEl.textContent = state.answer;
+    const verseEl = document.createElement("div");
+    verseEl.className = "ref-verse";
+    verseEl.textContent = verse;
+    referenceEl.append(wordEl, verseEl);
+    referenceEl.hidden = false;
+    keyboardEl.hidden = true;
+  }
+
   let toastTimer = null;
   function showToast(msg, duration = 1500) {
     toastEl.textContent = msg;
@@ -215,6 +234,7 @@
         state.won = false;
         showToast(`The word was ${state.answer}`, 5000);
       }
+      if (state.gameOver) showReference();
       save();
     });
   }
@@ -264,6 +284,7 @@
         state.won ? "Well done! 🎉" : `The word was ${state.answer}`,
         4000
       );
+      showReference();
     }
   }
 
