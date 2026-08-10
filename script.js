@@ -206,8 +206,17 @@
     setTimeout(onDone, WORD_LENGTH * 250 + 250);
   }
 
+  // True from the moment a guess is submitted until its reveal animation
+  // finishes and it's actually pushed into state.guesses. Without this,
+  // nothing stops a second Enter (double-tap, key repeat, etc.) firing
+  // while the first guess is still mid-animation: both calls capture the
+  // same row index, animate the same row, and both eventually push —
+  // guesses.length jumps by 2 for a single visible row, silently
+  // "skipping" rows further down the board.
+  let isRevealing = false;
+
   function submitGuess() {
-    if (state.gameOver) return;
+    if (state.gameOver || isRevealing) return;
     const r = state.guesses.length;
     if (state.current.length < WORD_LENGTH) {
       shakeRow(r);
@@ -221,7 +230,9 @@
     // scores as "absent" and a correct guess can never win.
     const statuses = scoreGuess(guess.toUpperCase(), state.answer);
 
+    isRevealing = true;
     revealRowAnimated(r, guess, statuses, () => {
+      isRevealing = false;
       state.guesses.push({ word: guess, statuses });
       state.current = "";
       const won = guess.toUpperCase() === state.answer;
@@ -240,7 +251,7 @@
   }
 
   function handleKey(k) {
-    if (state.gameOver) return;
+    if (state.gameOver || isRevealing) return;
     if (k === "enter") {
       submitGuess();
     } else if (k === "del") {
