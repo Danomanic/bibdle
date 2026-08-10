@@ -223,6 +223,11 @@
       showToast("Not enough letters");
       return;
     }
+    if (!VALID_WORDS.has(state.current.toUpperCase())) {
+      shakeRow(r);
+      showToast("Not in word list");
+      return;
+    }
 
     const guess = state.current;
     // Keys are lowercase (data-key="a".."z") but ANSWERS in words.js are

@@ -45,3 +45,17 @@ citation shown once the round ends. These are the best-known/most
 recognizable occurrence of each word, not an exhaustive list, and a few
 reflect classic KJV wording (marked `(KJV)`) rather than more modern
 translations — spot-check before treating one as authoritative.
+
+If you add a word to `ANSWERS` that isn't a standard English dictionary
+word (a name or place, say), it's still automatically guessable — see
+below — but double check it's also spelled/cased consistently.
+
+## Valid guesses
+
+`valid-words.js` holds every word the game will accept as a guess: the
+5-letter subset of the ENABLE word list (public domain; regenerate from
+https://norvig.com/ngrams/enable1.txt) unioned with every word in
+`ANSWERS`, so proper nouns like DAVID or JOPPA are always guessable even
+though they're not in a standard dictionary. A guess not in this set is
+rejected with "Not in word list" (matching real Wordle) without
+consuming a row.
